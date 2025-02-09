@@ -37,12 +37,12 @@ if (CheckRequestMethod("POST"))
 
 
     if(empty($error)){
-        $conn=mysqli_connect("localhost","root","","blog");
-        if(!$conn){
-            echo "connect error ". mysqli_connect_error($conn);
-        }
+        $password = sha1($password);
+        require_once("../config/env.php");
+        require_once("../config/DB_connection.php");
+
         $sql="INSERT INTO `users`( `firstName`, `email`, `password`) VALUES ('$name','$email','$password')";
-        $result=mysqli_query($conn,$sql);
+        $result=mysqli_query($con,$sql);
         //redirect
         $_SESSION['auth']=[$name,$email];
         redirect("../?page=home");

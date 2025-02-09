@@ -51,3 +51,7 @@ create table `likesComment`
 
 ALTER TABLE users
 ADD COLUMN state VARCHAR(255) DEFAULT 'user';
+
+ALTER TABLE `users`
+    DROP `lastName`,
+    DROP `age`;

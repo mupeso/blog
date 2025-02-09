@@ -1,10 +1,14 @@
-<?php 
-    include("./inc/header.php");
-    include("./inc/nav.php");
-    
-    
+<?php     
 
-    switch ($_GET["page"])
+    include("./inc/header.php");
+
+    $page = $_GET["page"] ?? "login";
+    if($page != "login")
+    {
+        include("./inc/nav.php");
+    }
+
+    switch ($page)
     {
         case "home" :
             require_once("./pages/home.php");
@@ -15,6 +19,9 @@
         case "post" :
             require_once("./pages/post.php");
             break;
+        case "create-post" :
+            require_once("./pages/createPost.php");
+            break;
         case "contact" :
             require_once("./pages/contact.php");
             break;
@@ -24,11 +31,13 @@
         case "register" :
             require_once("./pages/register.php");
             break;
-            default:
-            require_once("./pages/home.php");
+        case "logout" :
+            require_once("./pages/logout.php");
             break;
-
+        case "errors" :
+            require_once("./pages/errors.php");
+            break;
     }
 ?>
-    
-<?php include("./inc/footer.php"); ?>
+
+<?php if($page != "login") include("./inc/footer.php"); ?>
