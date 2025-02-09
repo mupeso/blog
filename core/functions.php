@@ -5,7 +5,7 @@
     function CheckRequestMethod($method)
     {
 
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
+        if($_SERVER['REQUEST_METHOD'] == $method){
             return true;
 
     }
