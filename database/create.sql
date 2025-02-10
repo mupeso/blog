@@ -55,3 +55,5 @@ ADD COLUMN state VARCHAR(255) DEFAULT 'user';
 ALTER TABLE `users`
     DROP `lastName`,
     DROP `age`;
+
+    INSERT INTO `comments`(`comment`) VALUES ('test beso');

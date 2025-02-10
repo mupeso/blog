@@ -21,6 +21,10 @@ function redirect($path){
     die;
 }
 
+function button ($text){
+
+
+}
 
 
 

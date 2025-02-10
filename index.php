@@ -37,6 +37,10 @@
         case "errors" :
             require_once("./pages/errors.php");
             break;
+        case "create-comment" :
+            require_once("./pages/createcomment.php");
+            break;
+            
     }
 ?>
 

@@ -20,9 +20,9 @@
         {
             $error[] = "Title is required";
         }
-        else if(!minVal($title,20))
+        else if(!minVal($title,5))
         {
-            $error[]= "Title must be grater than 20 char";
+            $error[]= "Title must be grater than 5 char";
         }
         else if(!maxVal($title,150))
         {
@@ -34,9 +34,9 @@
         {
             $error[] = "Content is required";
         }
-        else if(!minVal($content,200))
+        else if(!minVal($content,20))
         {
-            $error[]= "Content must be grater than 200 char";
+            $error[]= "Content must be grater than 20 char";
         }
         else if(!maxVal($content,5000))
         {
