@@ -41,7 +41,7 @@
             $error[] = "Post ID must be integer";
         }
 
-        $sql = "SELECT `title` , `content` , `image` FROM `posts` WHERE `id` = $post_id";
+        $sql = "SELECT `id` , `title` , `content` , `image` FROM `posts` WHERE `id` = $post_id";
         $result = mysqli_query($con , $sql);
         if($result)
         {

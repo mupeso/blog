@@ -19,7 +19,7 @@
         {
             $error[] = "Comment is required";
         }
-        else if(!minVal($comment, 5))
+        else if(!minVal($comment, 1))
         {
             $error[] = "Comment must be greater than 5 char";
         }
