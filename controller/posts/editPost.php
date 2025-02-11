@@ -14,9 +14,6 @@
             $$key=sanitizeInput($value);
         }
 
-        // var_dump($_POST);
-        // die;
-
         // validation user_id
         if(!requiredVal($user_id))
         {
