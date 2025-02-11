@@ -14,10 +14,10 @@
     ?>
     <form action="./controller/posts/createPost.php" method="POST" enctype="multipart/form-data">
         <!-- Title Field -->
-        <dclass="mb-3">
+        <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Enter post title">
-        </dclass=>
+        </div>
 
         <!-- Content Field -->
         <div class="mb-3">

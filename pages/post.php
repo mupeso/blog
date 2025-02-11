@@ -1,79 +1,129 @@
 
-    <!-- Page Header-->
-    
-    <header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">
-        <?php 
-            if(isset($_SESSION["success"])) :
-                foreach($_SESSION["success"] as $message) : 
-        ?>
-                    <div class="alert alert-success text-center">
-                        <?php echo $message; ?>
-                    </div>
-        <?php 
-                endforeach;
-            endif;
-            unset($_SESSION["success"]);
-        ?>
+<!-- Page Header-->
 
-        
-        <div class="container position-relative px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="post-heading">
-                        <h1>Man must explore, and this is exploration at its greatest</h1>
-                        <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
-                        <span class="meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on August 24, 2023
-                        </span>
-                    </div>
-                </div>
-                <div class="container position-relative">
-                    <a href="./?page=create-post" class="btn btn-primary position-absolute" style="bottom: 255px; right:-30px;">
-                        <i class="fas fa-plus"></i> 
-                     Create Post
-                    </a>
+<header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">        
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>Man must explore, and this is exploration at its greatest</h1>
+                    <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="#!">Start Bootstrap</a>
+                        on August 24, 2023
+                    </span>
                 </div>
             </div>
+            <div class="container position-relative">
+                <a href="./?page=create-post" class="btn btn-primary position-absolute" style="bottom: 255px; right:-30px;">
+                    <i class="fas fa-plus"></i> 
+                    Create Post
+                </a>
+            </div>
         </div>
-    </header>
-    <!-- Post Content-->
+    </div>
+</header>
+<!-- Post Content-->
+<?php 
+    if(isset($_SESSION["success"])) :
+        foreach($_SESSION["success"] as $message) : 
+?>
+            <div class="alert alert-success text-center">
+                <?php echo $message; ?>
+            </div>
+<?php 
+        endforeach;
+    endif;
+    unset($_SESSION["success"]);
+?>
+
+<?php
+    require_once("config/env.php");
+    require_once("config/DB_connection.php");
+    
+    $user_id = $_SESSION["auth"]["id"];
+    
+    $sql = "SELECT * FROM `posts` where `user_id` = $user_id";
+
+    $result = mysqli_query($con , $sql);
+    $posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    foreach ($posts as $post) :
+
+?>
+
     <article class="mb-4">
-        <div class="container px-4 px-lg-5">
+        <div class="card shadow-sm p-4 col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <div class="position-relative">
+                <div class="position-absolute top-0 end-0 mt-3 me-3">
+                    <form action="./controller/posts/editPost.php" method="POST" class="d-inline">
+                        <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
+                        <input type="hidden" name="post_id" value="<?= $post["id"]; ?>">
+                        <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                    </form>
+                    <form action="./controller/posts/deletePost.php" method="POST" class="d-inline">
+                        <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
+                        <input type="hidden" name="post_id" value="<?= $post["id"]; ?>">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">                            
+                    <h2 class="section-heading"><?= $post["title"]; ?></h2>
+                    <p><b><?= $post["content"]; ?></b></p>
+                    <img class="card-img-top" src="./assets/img/<?=$post["image"] ?>" alt="No Image">
+                </div>
+                <div class="mt-4">
+                    <h5>Comments</h5>
+                    <div class="comments-container">
+                        <?php
+                            $post_id = $post['id'];
+                            $comment_query = "SELECT * FROM `comments` WHERE `post_id` = $post_id";
+                            $comment_result = mysqli_query($con, $comment_query);
+                            $comments = mysqli_fetch_all($comment_result, MYSQLI_ASSOC);
+
+                            if (!empty($comments)) :
+                                foreach ($comments as $comment) :
+                        ?>
+                                    <div class="comment-box p-3 border rounded mb-2 bg-light">
+                                        <strong>User : 
+                                            <?php 
+                                                $sqlUserName = "SELECT `firstName` FROM `users` 
+                                                                INNER JOIN `comments` ON users.id = comments.user_id";
+                                                $result = mysqli_query($con, $sqlUserName);
+                                                $userName = mysqli_fetch_assoc($result);
+                                                echo $userName["firstName"];
+                                            ?>:
+                                        </strong>
+                                        <p class="m-0"><?= $comment["comment"]; ?></p>
+                                        <small class="text-muted"><?= $comment["created_at"]; ?></small>
+                                    </div>
+                        <?php
+                                endforeach;
+                            else :
+                        ?>
+                                <p class='text-muted'>No comments</p>
+                        <?php 
+                            endif;
+                        ?>
+                    </div>
+                </div>
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                      <?php  require_once("showpost.php"); ?>
-                    <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
-                    <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
-                    <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
-                    <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
-                    <p>For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
-                    
-                    <h2 class="section-heading">The Final Frontier</h2>
-                    
-                    <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
-                    <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
-                    <blockquote class="blockquote">The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten.</blockquote>
-                    <p>Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical process which mankind is carrying out in accordance with the natural laws of human development.</p>
-                    <h2 class="section-heading">Reaching for the Stars</h2>
-                    <p>As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.</p>
-                    
-                    <a href="#!"><img class="img-fluid" src="assets/img/post-sample-image.jpg" alt="..." /></a>
-                    <span class="caption text-muted">To go places and do things that have never been done before – that’s what living is all about.</span>
-                    
-                    <p>Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.</p>
-                    <p>As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.</p>
-                    <p>
-                        Placeholder text by
-                        <a href="http://spaceipsum.com/">Space Ipsum</a>
-                        &middot; Images by
-                        <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>
-                    </p>
+                    <form action="./controller/comments/createComment.php" method="POST" class="mt-3">
+                        <input type="hidden" name="post_id" value="<?= $post['id']; ?>">
+                        <input type="hidden" name="user_id" value="<?= $user_id; ?>">
+                        <div class="mb-3">
+                            <textarea name="comment" class="form-control" placeholder="Add a comment..." ></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Comment</button>
+                    </form>
                 </div>
             </div>
         </div>
     </article>
 
+<?php endforeach; ?>
 
-
+                

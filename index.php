@@ -25,6 +25,9 @@
         case "contact" :
             require_once("./pages/contact.php");
             break;
+        case "updatePost" :
+            require_once("./pages/updatePost.php");
+            break;
         case "login" :
             require_once("./pages/login.php");
             break;
@@ -36,9 +39,6 @@
             break;
         case "errors" :
             require_once("./pages/errors.php");
-            break;
-        case "create-comment" :
-            require_once("./pages/createcomment.php");
             break;
             
     }
