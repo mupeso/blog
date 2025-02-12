@@ -38,17 +38,25 @@
             $error[] = "Post ID must be integer";
         }
 
-        $sql = "SELECT `id` , `title` , `content` , `image` FROM `posts` WHERE `id` = $post_id";
-        $result = mysqli_query($con , $sql);
-        if($result)
+        if(empty($error))
         {
-            $post = mysqli_fetch_assoc($result);
-            $_SESSION["post"] = $post;
-            redirect("../../?page=updatePost");
+            $sql = "SELECT `id` , `title` , `content` , `image` FROM `posts` WHERE `id` = $post_id";
+            $result = mysqli_query($con , $sql);
+            if($result)
+            {
+                $post = mysqli_fetch_assoc($result);
+                $_SESSION["post"] = $post;
+                redirect("../../?page=updatePost");
+            }
+            else 
+            {
+                $error[] = "Post not found";
+                $_SESSION["errors"] = $error;
+                redirect("../../?page=post");
+            }
         }
         else 
         {
-            $error[] = "Post not found";
             $_SESSION["errors"] = $error;
             redirect("../../?page=post");
         }

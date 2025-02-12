@@ -86,22 +86,22 @@
         }
 
         if(empty($error))
-            {    
-                
-                $sql = "UPDATE `posts` SET `title` = '$title' , `content` = '$content' , `image` = '$image_name' WHERE `id` = $post_id";
-                $result = mysqli_query($con,$sql);
-                if($result)
-                {
-                    $success[] = "Post updated successfully";
-                    $_SESSION["success"] = $success;
-                    redirect("../../?page=post");
-                }
-            }
-            else 
+        {    
+            
+            $sql = "UPDATE `posts` SET `title` = '$title' , `content` = '$content' , `image` = '$image_name' WHERE `id` = $post_id";
+            $result = mysqli_query($con,$sql);
+            if($result)
             {
-                $_SESSION["errors"] = $error;
-                redirect("../../?page=create-post");
+                $success[] = "Post updated successfully";
+                $_SESSION["success"] = $success;
+                redirect("../../?page=post");
             }
+        }
+        else 
+        {
+            $_SESSION["errors"] = $error;
+            redirect("../../?page=updatePost");
+        }
     }
     else 
     {

@@ -5,11 +5,24 @@
     // die;
     // var_dump($post);
     // die;
-    
+
 ?>
+
     <div class="container mt-5">
         <h2 class="mb-4">Update Post</h2>
-        <form action="./controller  /posts/ConfirmUpdate.php" method="POST" enctype="multipart/form-data">
+        <?php 
+            if(isset($_SESSION["errors"])) :
+                foreach($_SESSION["errors"] as $error) : 
+        ?>
+            <div class="alert alert-danger text-center">
+                <?= $error; ?>
+            </div>
+        <?php 
+                endforeach;
+            endif;
+            unset($_SESSION["errors"]);
+        ?>
+        <form action="./controller/posts/ConfirmUpdate.php" method="POST" enctype="multipart/form-data">
             <!-- Title Field -->
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
