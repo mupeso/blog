@@ -21,11 +21,25 @@
         }
         else if(!minVal($comment, 1))
         {
-            $error[] = "Comment must be greater than 5 char";
+            $error[] = "Comment must be greater than 1 char";
         }
         else if(!maxVal($comment, 500))
         {
             $error[] = "Comment must be less than 500 char";
+        }
+
+        // validate page
+        if(!requiredVal($page))
+        {
+            $error[] = "Page is required";
+        }
+        else if(!minVal($page, 3))
+        {
+            $error[] = "Page must be greater than 3 char";
+        }
+        else if(!maxVal($page, 5))
+        {
+            $error[] = "Page must be less than 5 char";
         }
 
         // validate post_id
@@ -67,19 +81,40 @@
             {
                 $success[] = "Comment added successfully";
                 $_SESSION["success"] = $success;
-                redirect("../../?page=post");
+                if($page == "post")
+                {
+                    redirect("../../?page=post");
+                }
+                else 
+                {
+                    redirect("../../?page=home");
+                }
             }
             else 
             {
                 $error[] = "Error in adding comment";
                 $_SESSION["errors"] = $error;
-                redirect("../../?page=post");
+                if($page == "post")
+                {
+                    redirect("../../?page=post");
+                }
+                else 
+                {
+                    redirect("../../?page=home");
+                }
             }
         }
         else 
         {
             $_SESSION["errors"] = $error;
-            redirect("../../?page=post");
+            if($page == "post")
+                {
+                    redirect("../../?page=post");
+                }
+                else 
+                {
+                    redirect("../../?page=home");
+                }
         }
 
     }
@@ -87,7 +122,14 @@
     {
         $error[] = "Don't play with the request";
         $_SESSION["errors"] = $error;
-        redirect("../?page=post");
+        if($page == "post")
+        {
+            redirect("../../?page=post");
+        }
+        else 
+        {
+            redirect("../../?page=home");
+        }
     }
 
 

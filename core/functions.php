@@ -10,21 +10,19 @@
 
     }
     return false;
-}
+    }
 
-function sanitizeInput($input){
-    return trim(htmlspecialchars(htmlentities($input)));
-}
+    function sanitizeInput($input){
+        return trim(htmlspecialchars(htmlentities($input)));
+    }
 
-function redirect($path){
-    header("location:$path");
-    die;
-}
-
-function button ($text){
+    function redirect($path){
+        header("location:$path");
+        die;
+    }
 
 
-}
+    
 
 
 

@@ -30,14 +30,25 @@
         foreach($_SESSION["success"] as $message) : 
 ?>
             <div class="alert alert-success text-center">
-                <?php echo $message; ?>
+                <?= $message; ?>
             </div>
 <?php 
         endforeach;
     endif;
     unset($_SESSION["success"]);
 ?>
-
+<?php 
+    if(isset($_SESSION["errors"])) : 
+        foreach($_SESSION["errors"] as $error) : 
+?>
+            <div class="alert alert-danger text-center">
+                <?= $error; ?>
+            </div>
+<?php 
+        endforeach;
+    endif;
+    unset($_SESSION["errors"]);
+?>
 <?php
     require_once("config/env.php");
     require_once("config/DB_connection.php");
@@ -54,6 +65,7 @@
         <div class="container text-center mt-5">
             <div class="alert alert-warning p-4">
                 <h3 class="mb-3">No posts available</h3>
+            </div>
         </div>
 <?php 
     else : 
@@ -97,14 +109,18 @@
                                 ?>
                                             <div class="comment-box p-3 border rounded mb-2 bg-light">
                                                 <strong>User : 
-                                                    <?php 
+                                                    <?php
+                                                        $comment_id = $comment["id"];
+                                                    
                                                         $sqlUserName = "SELECT `firstName` FROM `users` 
-                                                                        INNER JOIN `comments` ON users.id = comments.user_id";
+                                                                        INNER JOIN `comments` ON users.id = comments.user_id
+                                                                        WHERE comments.id = $comment_id";
                                                         $result = mysqli_query($con, $sqlUserName);
                                                         $userName = mysqli_fetch_assoc($result);
+                                                        // echo $comment_id . "<br>";
                                                         echo $userName["firstName"];
                                                     ?>:
-                                                </strong>
+                                                </strong>   
                                                 <p class="m-0"><?= $comment["comment"]; ?></p>
                                                 <small class="text-muted"><?= $comment["created_at"]; ?></small>
                                             </div>
@@ -122,6 +138,7 @@
                             <form action="./controller/comments/createComment.php" method="POST" class="mt-3">
                                 <input type="hidden" name="post_id" value="<?= $post['id']; ?>">
                                 <input type="hidden" name="user_id" value="<?= $user_id; ?>">
+                                <input type="hidden" name="page" value="post">
                                 <div class="mb-3">
                                     <textarea name="comment" class="form-control" placeholder="Add a comment..." ></textarea>
                                 </div>
