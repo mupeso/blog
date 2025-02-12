@@ -70,6 +70,7 @@
 <?php 
     else : 
         foreach ($posts as $post) :
+            // echo $result["id"]; 
 
 ?>
 
@@ -124,6 +125,17 @@
                                                 <p class="m-0"><?= $comment["comment"]; ?></p>
                                                 <small class="text-muted"><?= $comment["created_at"]; ?></small>
                                             </div>
+                                            </form>
+                            <form action="./controller/comments/deletecomment.php" method="POST" class="d-inline">
+                                <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
+                                <input type="hidden" name="comment_id" value="<?= $comment_id; ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete  </button>
+                            </form>
+                            <form action="./controller/comments/editcomment.php" method="POST" class="d-inline">
+                                <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
+                                <input type="hidden" name="comment_id" value="<?= $comment_id; ?>">
+                                <button type="submit" class="btn btn-warning btn-sm">Edit </button>
+                            </form>
                                 <?php
                                         endforeach;
                                     else :
@@ -145,13 +157,14 @@
                                 <button type="submit" class="btn btn-primary">Comment</button>
                             </form>
                         </div>
-                    </div>
                 </div>
             </article>
 
 <?php 
         endforeach; 
     endif;
+    
 ?>
+
 
                 

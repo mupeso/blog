@@ -22,12 +22,19 @@
         case "create-post" :
             require_once("./pages/createPost.php");
             break;
+            // case "create-comment" :
+            //     require_once("./pages/createComment.php");
+            //     break;
         case "contact" :
             require_once("./pages/contact.php");
             break;
         case "updatePost" :
             require_once("./pages/updatePost.php");
             break;
+        case "updatecomment" :
+            require_once("./pages/updatecomment.php");
+            break;
+             
         case "login" :
             require_once("./pages/login.php");
             break;
