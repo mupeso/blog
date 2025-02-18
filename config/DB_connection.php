@@ -8,7 +8,7 @@
     catch(throwable $e)
     {
         $_SESSION["errorConnection"] = "INTERNAL SERVER ERROR | 500";
-        echo $_SESSION["errorConnection"];
+        // echo $_SESSION["errorConnection"];
         redirect("../?page=errors");
     }
 

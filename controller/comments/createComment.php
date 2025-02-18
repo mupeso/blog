@@ -6,6 +6,8 @@
 
     $error = [];
     $success = [];
+    // var_dump($_POST);
+    // die;
 
     if(CheckRequestMethod("POST"))
     {
@@ -107,14 +109,7 @@
         else 
         {
             $_SESSION["errors"] = $error;
-            if($page == "post")
-                {
-                    redirect("../../?page=post");
-                }
-                else 
-                {
-                    redirect("../../?page=home");
-                }
+            redirect("../../?page=$post");
         }
 
     }
@@ -122,14 +117,7 @@
     {
         $error[] = "Don't play with the request";
         $_SESSION["errors"] = $error;
-        if($page == "post")
-        {
-            redirect("../../?page=post");
-        }
-        else 
-        {
-            redirect("../../?page=home");
-        }
+        redirect("../../?page=$post");
     }
 
 

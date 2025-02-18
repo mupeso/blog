@@ -49,6 +49,21 @@
     // var_dump($posts);
     // die;
 
+
+    $sqlCount = "SELECT count(id) as likes_numbers FROM `likes`";
+    $resCount = mysqli_query($con, $sqlCount);
+    if($resCount)
+    {
+        $row = mysqli_fetch_assoc($resCount);
+        // var_dump($row);
+        // die;
+        $likeNumber = $row["likes_numbers"];
+        // $_SESSION["likeNumber"] = $likeNumber;
+        // var_dump($_SESSION["likeNumber"]);
+        // echo $_SESSION["likeNumber"];
+        // die;
+    }
+
     if(empty($posts)) : 
 ?>
         <div class="container text-center mt-5">
@@ -67,6 +82,12 @@
                             <h2 class="section-heading"><?= $post["title"]; ?></h2>
                             <p><b><?= $post["content"]; ?></b></p>
                             <img class="card-img-top" src="./assets/img/<?= $post["image"]; ?>" alt="No Image">
+                            <form action="./controller/posts/likeOnPost.php" method="POST" class="mt-2">
+                                <input type="hidden" name="post_id" value="<?= $post["id"]; ?>">
+                                <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
+                                <input type="hidden" name="page" value="home">
+                                <button type="submit" class="btn btn-outline-primary">Like <?= $likeNumber; ?></button>
+                            </form>
                         </div>
                         <div class="mt-4">
                             <h5>Comments</h5>
