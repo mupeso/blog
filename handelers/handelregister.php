@@ -3,6 +3,8 @@ session_start();
 include ("../core/functions.php");
 include ("../core/validations.php");
 $error=[];
+$auth=[];
+
 
 if (CheckRequestMethod("POST"))
 {
@@ -43,8 +45,19 @@ if (CheckRequestMethod("POST"))
 
         $sql="INSERT INTO `users`( `firstName`, `email`, `password`) VALUES ('$name','$email','$password')";
         $result=mysqli_query($con,$sql);
+
         //redirect
-        $_SESSION['auth']=[$name,$email];
+        $sqll = "SELECT `id` FROM `users` WHERE `email` = '$email'";
+        $res=mysqli_query($con,$sqll);
+        $user = mysqli_fetch_assoc($res);
+         $id=$user['id'];
+       
+       $_SESSION['auth']=[$id,$name,$email];
+       $_SESSION['auth']['id']=$id;
+
+
+
+        
         redirect("../?page=home");
     }
     else{

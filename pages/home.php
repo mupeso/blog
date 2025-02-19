@@ -82,6 +82,7 @@
                             <h2 class="section-heading"><?= $post["title"]; ?></h2>
                             <p><b><?= $post["content"]; ?></b></p>
                             <img class="card-img-top" src="./assets/img/<?= $post["image"]; ?>" alt="No Image">
+                           
                             <form action="./controller/posts/likeOnPost.php" method="POST" class="mt-2">
                                 <input type="hidden" name="post_id" value="<?= $post["id"]; ?>">
                                 <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
@@ -119,6 +120,12 @@
                                                 <p class="m-0"><?= $comment["comment"]; ?></p>
                                                 <small class="text-muted"><?= $comment["created_at"]; ?></small>
                                             </div>
+                                            <form action="./controller/posts/likeOnPost.php" method="POST" class="mt-2">
+                                <input type="hidden" name="comment_id" value="<?= $post["id"]; ?>">
+                                <input type="hidden" name="user_id" value="<?= $_SESSION["auth"]["id"]; ?>">
+                                <input type="hidden" name="page" value="home">
+                                <button type="submit" class="btn btn-outline-primary">Like <?= $likeNumber; ?></button>
+                            </form>
                                 <?php 
                                         endforeach; 
                                     else :
